@@ -7,7 +7,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import About from './Components/About';
+
 
 
 export default class App extends Component {
@@ -28,8 +28,7 @@ export default class App extends Component {
           <Route exact path="/technology"><News key="technology" pageSize={this.pageSize} country="in" category="technology"/></Route>
         </Switch>
         </Router>
-        <About/>
-        
+      
       </>
     )
   }
