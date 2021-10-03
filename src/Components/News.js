@@ -17,7 +17,6 @@ export default class News extends Component {
     country: PropTypes.string,
     pageSize:PropTypes.number,
     category:PropTypes.string,
-
   }
   constructor() {
     super();
@@ -25,12 +24,12 @@ export default class News extends Component {
       articles: [],
       loading: false,
       page: 1,
-      // totalResults:38
+      totalResults:38
     };
   }
 
 
-  async updateNews(){
+  async updateNews(pageNo){
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c5140dd23375463bbd2eed9755158ee3&page=${this.state.page}&pageSize=${this.state.pageSize}`;
     this.setState({loading:true})
     let data = await fetch(url);
@@ -52,7 +51,6 @@ export default class News extends Component {
 
   handlePrevClick = async () => {
     console.log("Prev");
-
     this.setState({page:this.state.page-1});
     this.updateNews();
   };
@@ -72,17 +70,17 @@ export default class News extends Component {
         {this.state.loading && <Spinner />}
         
         <div className="row">
-          {!this.setState.loading && this.state.articles.map((element) => {
+          {!this.setState.loading && this.state.articles.map((articles) => {
             return (
-              <div className="col-md-4" key={element.url}>
+              <div className="col-md-4" key={articles.url}>
                 <NewsItems
-                  title={element.title.slice(0, 45)}
-                  description={element.description}
-                  imageUrl={element.urlToImage}
-                  newsUrl={element.url} 
-                  author ={element.author}
-                  date={element.publishedAt}
-                  source={element.source.name}
+                  title={articles.title.slice(0, 45)}
+                  description={articles.description}
+                  imageUrl={articles.urlToImage}
+                  newsUrl={articles.url} 
+                  author ={articles.author}
+                  date={articles.publishedAt}
+                  source={articles.source.name}
                 />
               </div>
             );
