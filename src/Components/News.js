@@ -18,18 +18,22 @@ export default class News extends Component {
     pageSize:PropTypes.number,
     category:PropTypes.string,
   }
-  constructor() {
-    super();
+  capitalizeFirstLetter=(string)=> {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  constructor(props) {
+    super(props);
     this.state = {
       articles: [],
       loading: false,
       page: 1,
       totalResults:38
     };
+    document.title = `${this.capitalizeFirstLetter(this.props.category)} - NewsMonkey`;
   }
 
 
-  async updateNews(pageNo){
+  async updateNews(){
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c5140dd23375463bbd2eed9755158ee3&page=${this.state.page}&pageSize=${this.state.pageSize}`;
     this.setState({loading:true})
     let data = await fetch(url);
@@ -66,7 +70,7 @@ export default class News extends Component {
   render() {
     return (
       <div className="container my-3">
-        <h1 className="text-center">NewsMonkey - Top Headlines</h1>
+        <h1 className="text-center">NewsMonkey - Top  {this.capitalizeFirstLetter(this.props.category)} Headlines</h1>
         {this.state.loading && <Spinner />}
         
         <div className="row">
@@ -76,8 +80,8 @@ export default class News extends Component {
                 <NewsItems
                   title={element.title.slice(0, 45)}
                   description={element.description}
-                  imageUrl={element.urlToImage}
-                  newsUrl={element.url} 
+                    imageUrl={element.urlToImage}
+                    newsUrl={element.url} 
                   author ={element.author}
                   date={element.publishedAt}
                   source={element.source.name}
